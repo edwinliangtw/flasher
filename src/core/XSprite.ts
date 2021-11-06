@@ -8,6 +8,7 @@ export class XSprite extends XObject {
     public get id() { return this._id };
 
     protected style: any;
+    protected events: any = { onClick: function (e: any) { e.stopPropagation(); } };
 
     protected _stage?: XStage;
     public get stage() { return this._stage }
@@ -51,7 +52,6 @@ export class XSprite extends XObject {
             'height': '100px',
             'background': 'rgba(0,0,0,.05)'
         }
-        console.log(this.id)
     }
 
     public addChild(sprite: XSprite) {
@@ -100,8 +100,25 @@ export class XSprite extends XObject {
         return this._childrens[index];
     }
 
+    public addEventListener(onEvent: string, listener: Function) {
+        const self = this;
+        this.events[onEvent] = (e: any) => { e.stopPropagation(); listener({ eventName: onEvent, currentTarget: self }) };
+        this.render();
+    }
+
+    public removeEventListener(onEvent: string) {
+        this.events[onEvent] = (e: any) => { e.stopPropagation(); };
+        this.render();
+    }
+
+    protected getProps() {
+        const props: any = { id: this.id, style: style(this.style) };
+        Object.keys(this.events).forEach(name => props[name] = this.events[name])
+        return props;
+    }
+
     protected getVNode(): any {
-        return m('div', { id: this._id, style: style(this.style) }, this._childrens.map(item => item.getVNode()));
+        return m('div', this.getProps(), this._childrens.map(item => item.getVNode()));
     }
 
     private render() {
@@ -109,4 +126,9 @@ export class XSprite extends XObject {
         el && patch(el, this.getVNode());
     }
 
+}
+
+export interface IEvent {
+    eventName: string,
+    currentTarget: any
 }

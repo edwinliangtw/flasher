@@ -15,7 +15,7 @@ export class XLabel extends XSprite {
     }
 
     protected getVNode(): any {
-        return m('span', { id: this.id, style: style(this.style) }, [this._text], VFlags.ONLY_TEXT_CHILDREN);
+        return m('span', this.getProps(), [this._text], VFlags.ONLY_TEXT_CHILDREN);
     }
 
 }
