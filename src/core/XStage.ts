@@ -1,4 +1,4 @@
-import { createElement, DOMNode, patch } from "million";
+import $ from "jquery";
 import { XSprite } from "./XSprite";
 
 export class XStage extends XSprite {
@@ -9,7 +9,7 @@ export class XStage extends XSprite {
         this.percentHeight = 100;
         this.background = 'rgb(0,0,0,0)';
         this._stage = this;
-        document.body.append(createElement(this.getVNode()));
+        $(document.body).append(this.node);
     }
 
 }

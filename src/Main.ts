@@ -13,19 +13,20 @@ class Main extends XSprite {
         this.percentWidth = 100;
         this.percentHeight = 100;
         this.background = 'rgba(0,0,0,0.5)';
-        this.addEventListener('onClick', (event: IEvent) => {
+        this.addEventListener('click', (e: any) => {
             console.log('main click!')
         })
 
         // sprite with label
-        const sp = new XSprite;
+        const sp = new XSprite('cool');
         sp.x = 200;
         sp.y = 300;
         this.addChild(sp);
         const lb = new XLabel('textNode');
         lb.text = 'textNode';
         sp.addChild(lb);
-        lb.addEventListener('onClick', (event: IEvent) => {
+        lb.addEventListener('click', (e: any) => {
+
             console.log('text click!')
         })
     }
